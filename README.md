@@ -19,6 +19,9 @@ Nothing here is real. There is no cluster and no cloud account. CI validates the
 Intake and Dispatcher load it with `envFrom`, as a platform team would do for every workload that calls out.
 Whether a workload reads an address is the application's choice. The platform does not decide it.
 
+The manifests use `envFrom` and not a literal `env` entry on purpose. Archboard counts a literal entry as
+evidence for the Deployment, whether or not any code reads it. It counts a ConfigMap entry only when code reads that name.
+
 ## How Archboard uses this repository
 
 The architecture model in the application repository binds its Kubernetes and OpenTofu modules to files here,
