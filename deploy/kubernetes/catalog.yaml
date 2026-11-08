@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog
+  labels:
+    app.kubernetes.io/name: catalog
+    app.kubernetes.io/part-of: harbor-relay
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: catalog
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: catalog
+        app.kubernetes.io/part-of: harbor-relay
+    spec:
+      containers:
+        - name: catalog
+          image: example.invalid/harbor-relay/catalog:0.1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog
+  labels:
+    app.kubernetes.io/name: catalog
+    app.kubernetes.io/part-of: harbor-relay
+spec:
+  selector:
+    app.kubernetes.io/name: catalog
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http

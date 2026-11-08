@@ -1,0 +1,13 @@
+# The platform team publishes every peer address here. A workload receives them
+# through envFrom, whether or not its code reads each one.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: peer-endpoints
+  labels:
+    app.kubernetes.io/name: peer-endpoints
+    app.kubernetes.io/part-of: harbor-relay
+data:
+  CATALOG_URL: http://catalog.harbor.svc.cluster.local:8080
+  DISPATCH_JOBS_URL: http://dispatch-jobs.harbor.svc.cluster.local:9324
+  BILLING_URL: http://billing.harbor.svc.cluster.local:8080
